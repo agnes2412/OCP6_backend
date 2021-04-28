@@ -12,7 +12,11 @@ exports.createSauce = (req, res, next) => {
         ...sauceObject,
         //Je renseigne le frontend sur l'url de l'image, c'est multer qui a généré ce fichier
         //Je génère l'url de l'image: le protocole, le nom d'hôte, /images/ et le nom du fichier
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+        likes: 0,
+        dislikes: 0,
+        usersLiked: [],
+        usersDisliked: []
     });
     //Avec la méthode .save, j'enregistre l'objet dans la base de données et retourne une promesse
     sauce.save()
@@ -69,3 +73,71 @@ exports.getAllSauces = (req, res, next) => {
         .then(sauces => res.status(200).json(sauces))
         .catch(error => res.status(400).json({ error }));
 };
+
+exports.likeSauce = (req, res, next) => {
+    switch (req.body.like) {
+        //Dans le cas où le req.body.like est à 0
+        case 0:
+            Sauce.findOne({ _id: req.params.id })
+                .then(sauce => {
+                    //Je cherche si le user est déjà dans le tableau usersLiked(en rapport à la requête du body)
+                    if (sauce.usersLiked.find((user) => user === req.body.userId)) {
+                        //Si oui, mise à jour de la sauce en rapport à l'id de la requête
+                        Sauce.updateOne({ _id: req.params.id }, {
+                            //Je décrémente la valeur de 1
+                            $inc: {
+                                likes: -1
+                            },
+                            //Je retire la valeur (req.body.userId) du champ (userLiked) 
+                            $pull: {
+                                usersLiked: req.body.userId
+                            },
+                            _id: req.params.id
+                        })
+                            .then(() => res.status(200).json({ message: 'Like supprimé !' }))
+                            .catch(error => res.status(400).json({ error }));
+                    }
+                    if (sauce.usersDisliked.find((user) => user === req.body.userId)) {
+                        Sauce.updateOne({ _id: req.params.id }, {
+                            $inc: {
+                                dislikes: -1
+                            },
+                            $pull: { usersDisliked: req.body.userId },
+                            _id: req.params.id
+                        })
+                            .then(() => res.status(200).json({ message: 'Dislike supprimé !' }))
+                            .catch(error => res.status(400).json({ error }));
+                    }
+                })
+                .catch(error => res.status(404).json({ error }));
+            break;
+
+        //Dans le cas où le req.body.like est à 1
+        case 1:
+            //Je recherche la sauce en rapport à l'id présent dans la requête
+            Sauce.updateOne({ _id: req.params.id }, {
+                //J'incrémente de 1
+                $inc: {
+                    likes: 1
+                },
+                //J'ajoute la valeur (req.body.userId) du champ (userLiked)
+                $push: { usersLiked: req.body.userId },
+                _id: req.params.id
+            })
+                .then(() => res.status(200).json({ message: 'Like ajouté !' }))
+                .catch(error => res.status(400).json({ error }));
+            break;
+
+        //Dans le cas où le req.body.like est à -1
+        case -1:
+            Sauce.updateOne({ _id: req.params.id }, {
+                $inc: {
+                    dislikes: 1
+                },
+                $push: { usersDisliked: req.body.userId },
+                _id: req.params.id
+            })
+                .then(() => res.status(200).json({ message: 'Dislike ajouté !' }))
+                .catch(error => res.status(400).json({ error }));
+    }
+}

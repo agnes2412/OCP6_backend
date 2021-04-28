@@ -1,14 +1,16 @@
 //J'importe express
-const express = require('express'); 
+const express = require('express');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
 const mongoose = require('mongoose');
 //J'importe path de Node pour accéder au chemin du système de fichier
 const path = require('path');
+require('dotenv').config();
 
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
-mongoose.connect('mongodb+srv://agnes2412:@Lina@cluster0.egtzz.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect(`${process.env.MONGO_URl}`,//(`mongodb+srv://agnes_lec:@Lina2412@cluster0.egtzz.mongodb.net/Projet6?retryWrites=true&w=majority`,//
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -31,14 +33,15 @@ app.use((req, res, next) => {
     next();
 });
 
+
+//Helmet (module de Node) aide à sécuriser les en-tête http
+app.use(helmet());
 //Ce middlware utilise une méthode de body-parser qui va transformer le corps de la requête en json
 app.use(bodyParser.json());
-
 //Je crée un middleware qui va répondre aux requêtes faites à /images et servir le dossier static image 
 app.use('/images', express.static(path.join(__dirname, 'images')));
-
 //J'enregistre les routes attendues par le frontend
-//Ces routes sont les racines
+//Ces routes sont les routes racines
 app.use('/api/sauces', saucesRoutes);
 app.use('/api/auth', userRoutes);
 

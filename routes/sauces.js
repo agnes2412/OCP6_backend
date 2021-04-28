@@ -9,16 +9,17 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 //J'importe le middleware qui permet de télécharger des fichiers image depuis le frontend
 const multer = require('../middleware/multer-config');
-
 const saucesCtrl = require('../controllers/sauces');
 
 //J'importe la fonction createSauces pour l'appliquer à la route
 //Pour protéger mes routes, je rajoute le middleware 'auth' avant le controleur
 //J'ajoute le middleware pour avoir un fichier image avec la requête post
 router.post('/', auth, multer, saucesCtrl.createSauce);
+
 router.put('/:id', auth, multer, saucesCtrl.modifySauce);
+
 router.delete('/:id', auth, saucesCtrl.deleteSauce);
-//router.post('/:id/like', auth, sauceCtrl.)
+router.post('/:id/like', auth, saucesCtrl.likeSauce);
 //Le : devant id indique à Express que ce chemin est dynamique 
 router.get('/:id', auth, saucesCtrl.getOneSauce);
 router.get('/', auth, saucesCtrl.getAllSauces);
