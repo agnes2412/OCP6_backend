@@ -3,15 +3,13 @@
 const bcrypt = require('bcrypt');
 //Après avoir installé le package jsonwebtoken, je l'importe
 const jwt = require('jsonwebtoken');
-
 //J'importe mon modèle user pour lire et enregistrer des users dans les middleware suivants
 const User = require('../models/user');
-
 //J'importe mon module password validator 
 const passwordValidator = require('password-validator');
-
 //Je crée un schéma pour recevoir des mots de passe sécurisés
 const schema = new passwordValidator();
+require('dotenv').config();
 
 //La fonction 'signup' pour l'enregistrement de nouveaux utilisateurs depuis l'appli frontend
 exports.signup = (req, res, next) => {
@@ -44,12 +42,14 @@ exports.signup = (req, res, next) => {
 };
 
 schema
-    .is().min(8)            //minimum 8 caractères
-    .has().uppercase(1)     //minimum 1 caractère majuscule
-    .has().lowercase(1)     //minimum 1 caractère minuscule
-    .has().digits(2)        //minimum 2 chiffres
-    .has().not().spaces();  //aucun espace
-
+    .is().min(8)
+    .is().max(100)                                      //minimum 8 caractères
+    .has().uppercase(1)                                 //minimum 1 caractère majuscule
+    .has().lowercase(1)                                 //minimum 1 caractère minuscule
+    .has().digits(2)                                    //minimum 2 chiffres
+    .has().not().spaces()                               //aucun espace
+    .is().not().oneOf(['Passw0rd', 'Password123']);     //Liste noire de ces valeurs
+    
 //La fonction login pour la connexion des utilisateurs existants
 exports.login = (req, res, next) => {
     //Je mets l'objet de comparaison, ici l'utilisateur pour qui l'adresse mail correspond à l'adresse mail envoyée dans la requête
@@ -76,7 +76,7 @@ exports.login = (req, res, next) => {
                             //1er argument : L'objet userId sera l'identifiant user de l'utilisateur
                             { userId: user._id },
                             //2ème argument: clé secrète pour l'encodage
-                            'RANDOM_TOKEN_SECRET',
+                            `${process.env.JWT_KEY}`,
                             //3ème argument de configuration avec expiration du token à 24h
                             { expiresIn: '24h' }
                         )
