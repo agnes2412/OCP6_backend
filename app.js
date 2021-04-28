@@ -10,7 +10,7 @@ require('dotenv').config();
 const saucesRoutes = require('./routes/sauces');
 const userRoutes = require('./routes/user');
 
-mongoose.connect(`${process.env.MONGO_URl}`,//(`mongodb+srv://agnes_lec:@Lina2412@cluster0.egtzz.mongodb.net/Projet6?retryWrites=true&w=majority`,//
+mongoose.connect(`${process.env.MONGO_URl}`,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
