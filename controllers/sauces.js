@@ -25,12 +25,29 @@ exports.createSauce = (req, res, next) => {
 };
 
 exports.modifySauce = (req, res, next) => {
+    //Si il y a un fichier image dans le requête
+    if (req.file) {
+        Sauce.findOne({ _id: req.params.id })
+            .then(resSauce => {
+                //Je récupère le nom du fichier de l'image et le split
+                //Le split retourne un tableau de 2 éléments ce qui vient avant le /images/ 
+                //et ce qui vient après le /images/ donc le nom du fichier
+                const filename = resSauce.imageUrl.split('/images/')[1];
+                fs.unlink(`images/${filename}`, (error => {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('image supprimée: ' + filename);
+                    }
+                }))
+            })
+    }
     //J'utilise l'opérateur ternaire ? pour savoir si req.file existe
     const sauceObject = req.file ?
         //S'il existe, je récupère la chaine de caractère, je la parse en objet et je génère l'image url car c'est une nouvelle image
         {
             ...JSON.parse(req.body.sauce),
-            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
             //sinon je prends le corps de la requête
         } : { ...req.body };
     //Je recherche l'id qui correspond à l'id dans les paramètres de recherche
@@ -47,7 +64,7 @@ exports.deleteSauce = (req, res, next) => {
             //Je récupère le nom du fichier de l'image et le split
             //Le split retourne un tableau de 2 éléments ce qui vient avant le /images/ 
             //et ce qui vient après le /images/ donc le nom du fichier
-            const filename = sauce.imageUrl.split('/images/')[1];
+            filename = sauce.imageUrl.split('/images/')[1];
             //Avec ce nom, j'appelle la fonction unlink(supprimer un fichier)
             //1er argument = string qui correspond au chemin du fichier
             //2ème argument = le callback: ce qu'il faut faire une fois le fichier supprimé; càd supprimer le 'sauce' de la base de données

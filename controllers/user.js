@@ -13,7 +13,7 @@ require('dotenv').config();
 
 //La fonction 'signup' pour l'enregistrement de nouveaux utilisateurs depuis l'appli frontend
 exports.signup = (req, res, next) => {
-    //Si les données entrées ne correspondent pas au schéma
+    //Si les données entrées ne correspondent pas au schéma, envoi d'une erreur
     if (!schema.validate(req.body.password)) {
         res.status(401).json({ error: 'Les données entrées ne correspondent pas au schéma demandé !' });
         //Sinon si les données entrées correspondent au schéma

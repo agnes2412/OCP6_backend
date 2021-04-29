@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
     filename: (req, file, callback) => {
         //S'il existe des espaces dans un nom de fichier, je 'split' autour des espaces et crée un tableau avec les différents mots du nom du fichier
         //j'élimine les espaces potentiels dans les noms de fichier et avec 'join' les remplace par des underscore en rejoignant le tableau en un seul string
-        const name = file.originalname.split(' ').join('_');
+        const name = file.originalname.split(' ').join('_').split('.')[0];
         //J'accède aux mime-type (image/png) pour générer l'extension du fichier qui est l'élément de mon dictionnaire = fichier envoyé par le front-end
         const extension = MIME_TYPES[file.mimetype];
         //J'appelle le callback, j'ajoute un timestamp, un point et l'extension du fichier
