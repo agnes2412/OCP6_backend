@@ -15,9 +15,7 @@ const saucesCtrl = require('../controllers/sauces');
 //Pour protéger mes routes, je rajoute le middleware 'auth' avant le controleur
 //J'ajoute le middleware pour avoir un fichier image avec la requête post
 router.post('/', auth, multer, saucesCtrl.createSauce);
-
 router.put('/:id', auth, multer, saucesCtrl.modifySauce);
-
 router.delete('/:id', auth, saucesCtrl.deleteSauce);
 router.post('/:id/like', auth, saucesCtrl.likeSauce);
 //Le : devant id indique à Express que ce chemin est dynamique 

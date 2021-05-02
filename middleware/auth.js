@@ -5,7 +5,7 @@ require('dotenv').config();
 
 module.exports = (req, res, next) => {
     try {
-        //Je récupère le token dans le header autorization. On 'plit' autour des espaces et crée un tableau
+        //Je récupère le token dans le header autorization. On 'split' autour des espaces et crée un tableau
         //Le split me retourne les élements du tableau, dans le 2ème [1], je récupère la chaine du bearer
         const token = req.headers.authorization.split(' ')[1];
         const decodedToken = jwt.verify(token, `${process.env.JWT_KEY}`);

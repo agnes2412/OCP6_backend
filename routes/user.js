@@ -1,5 +1,5 @@
 //Je crée le routeur correspondant aux fonctions signup et login
-//J'impote express pour créer le routeur
+//J'importe express pour créer le routeur
 const express = require('express');
 //Je crée le routeur avec la fonction Router d'express
 const router = express.Router();
@@ -7,7 +7,6 @@ const router = express.Router();
 const userCtrl = require('../controllers/user');
 
 //Je crée deux routes post parce que le frontend doit envoyer des informations(adresse mail et mot de passe)
-//Une avec la fonction signup et l'autre avec login
 router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 

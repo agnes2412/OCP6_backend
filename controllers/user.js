@@ -1,11 +1,10 @@
 //Ce controleur comporte deux middleware d'authentification
 //Après avoir installé le package bcrypt, je l'importe
 const bcrypt = require('bcrypt');
-//Après avoir installé le package jsonwebtoken, je l'importe
+const cryptoJS = require('crypto-js');
 const jwt = require('jsonwebtoken');
 //J'importe mon modèle user pour lire et enregistrer des users dans les middleware suivants
 const User = require('../models/user');
-//J'importe mon module password validator 
 const passwordValidator = require('password-validator');
 //Je crée un schéma pour recevoir des mots de passe sécurisés
 const schema = new passwordValidator();
@@ -13,7 +12,9 @@ require('dotenv').config();
 
 //La fonction 'signup' pour l'enregistrement de nouveaux utilisateurs depuis l'appli frontend
 exports.signup = (req, res, next) => {
-    //Si les données entrées ne correspondent pas au schéma, envoi d'une erreur
+    const cryptEmail = cryptoJS.HmacSHA256(req.body.email, `${process.env.CRYPT_EMAIL}`).toString();
+    console.log(cryptEmail);
+     //Si les données entrées ne correspondent pas au schéma, envoi d'une erreur
     if (!schema.validate(req.body.password)) {
         res.status(401).json({ error: 'Les données entrées ne correspondent pas au schéma demandé !' });
         //Sinon si les données entrées correspondent au schéma
@@ -26,11 +27,13 @@ exports.signup = (req, res, next) => {
             .then(hash => {
                 //Je l'enregistre dans un nouveau user. Donc je crée un nouvel user avec mon modèle mongoose
                 const user = new User({
-                    //Je passe l'adresse qui est fourni dans le corps de la requête
-                    email: req.body.email,
+                    //Je passe l'adresse (cryptée) qui est fourni dans le corps de la requête
+                    email: cryptEmail,
                     //Comme mot de passe, j'enregistre le hash, donc le mot de passe crypté
                     password: hash
                 });
+                console.log(cryptEmail);
+                console.log(hash);
                 //J'utilise la méthode save pour l'enregistrer dans la base de données
                 user.save()
                     //Renvoi d'un 201 pour une création de ressource et un message
@@ -52,8 +55,11 @@ schema
     
 //La fonction login pour la connexion des utilisateurs existants
 exports.login = (req, res, next) => {
+    //const cryptEmail = cryptoJS.AES.encrypt(req.body.email, `${process.env.CRYPT_EMAIL}`).toString();
+    const cryptEmail = cryptoJS.HmacSHA256(req.body.email, `${process.env.CRYPT_EMAIL}`).toString();
+    console.log(cryptEmail);
     //Je mets l'objet de comparaison, ici l'utilisateur pour qui l'adresse mail correspond à l'adresse mail envoyée dans la requête
-    User.findOne({ email: req.body.email })
+    User.findOne({ email: cryptEmail })
         //Je vérifie s'il la promise a récupérer un use
         .then(user => {
             if (!user) {
