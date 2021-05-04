@@ -24,14 +24,15 @@ approprié est utilisé pour s’assurer de leur caractère unique et rapporter 
 ## Pour accèder à ce projet :
 * Dans un premier temps, il vous faut cloner le frontend de l'application via le lien suivant et installer node-sass:  
 https://github.com/OpenClassrooms-Student-Center/dwj-projet6  
-Depuis votre invite de commande, allez dans le dossier puis tapez les lignes suivantes  
+Depuis votre invite de commande, placez vous dans le dossier puis tapez les lignes suivantes  
 npm install  
 ng serve
   
-Vous pouvez maintenant vous rendre à l'adresse suivante: http://localhost:4200/
+Vous pouvez vous rendre à l'adresse suivante: http://localhost:4200/
 
 * Dans un second temps, vous devez cloner le backend de ce projet et installer tous les modules:  
 https://github.com/agnes2412/OCP6_backend  
+Depuis votre terminal, installez la ligne suivante  
 npm install
 
 * Ensuite, créez un fichier .env à la racine du projet et ajoutez les lignes suivantes afin de récupérer la valeur des variables d'environnement MONGO_URl et JWT_KEY  
@@ -41,6 +42,6 @@ JWT_KEY="19Li%85tSa"`
 * Pour finir, depuis votre terminal, allez dans le dossier backend et entrez la ligne suivante  
 nodemon
 
-Vous avez désormais accès à toutes les fonctionnalité de l'application
+Vous avez désormais accès à toutes les fonctionnalité de l'application "Piquante"
 
 
