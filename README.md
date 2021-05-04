@@ -1,4 +1,4 @@
-OCP5 
+# OCP6 
 
 Construisez une API sécurisée pour une application d'avis gastronomique
 Projet réalisé dans le cadre de la formation "Développeur Web" d'OpenClassrooms
