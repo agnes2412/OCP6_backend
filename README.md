@@ -23,7 +23,11 @@ approprié est utilisé pour s’assurer de leur caractère unique et rapporter 
 ## Pour accèder à ce projet :
 * Dans un premier temps, il vous faut cloner le frontend de l'application via le lien suivant:  
 https://github.com/OpenClassrooms-Student-Center/dwj-projet6  
-Suivez le protocole et n'oubliez d'installer node-sass
+Suivez le protocole et n'oubliez pas d'installer node-sass
 
-* Dans un second temps, cloner le backend de ce projet
+* Dans un second temps, vous devez cloner le backend de ce projet
+
+* Vous devez créer un fichier .env à la racine du projet et ajouter les lignes suivantes afin de récupérer la valeur des variables d'environnement MONGO_URl et JWT_KEY
+MONGO_URl="mongodb+srv://DB_USER:5891*Agnes@cluster0.egtzz.mongodb.net/SoPiquante?retryWrites=true&w=majority"
+JWT_KEY="19Li%85tSa"
 
