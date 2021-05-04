@@ -42,6 +42,6 @@ JWT_KEY="19Li%85tSa"`
 * Pour finir, depuis votre terminal, allez dans le dossier backend et entrez la ligne suivante  
 nodemon
 
-Vous avez désormais accès à toutes les fonctionnalité de l'application "Piquante"
+Vous avez désormais accès à toutes les fonctionnalités de l'application "Piquante"
 
 
