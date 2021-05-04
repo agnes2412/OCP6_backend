@@ -4,10 +4,8 @@ Construisez une API sécurisée pour une application d'avis gastronomique
 Projet réalisé dans le cadre de la formation "Développeur Web" d'OpenClassrooms
 ***********************************
 ## Technologies utilisées  
-* Projet hébergé: par un serveur Node.js  
-- Framework utilisé:  Express
-* Base de données: MongoDB  
-- Plugin: Mongoose
+* Projet hébergé: par un serveur Node.js: Framework utilisé:  Express
+* Base de données: MongoDB: Plugin: Mongoose
 ************
 Ce projet représente le backend de l'application 
 Exigences concernant la sécurité :
