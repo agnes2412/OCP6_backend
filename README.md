@@ -1,7 +1,7 @@
 # OCP6 
-Construisez une API sécurisée pour une application d'avis gastronomique  
+Projet réalisé dans le cadre de la formation "Développeur Web" d'OpenClassrooms  
+Intitulé: "Construisez une API sécurisée pour une application d'avis gastronomique"   
 Ce projet représente le backend de l'application  
-Projet réalisé dans le cadre de la formation "Développeur Web" d'OpenClassrooms
 
 ## Technologies utilisées  
 * Projet hébergé par un serveur Node.js - Framework utilisé:  Express
