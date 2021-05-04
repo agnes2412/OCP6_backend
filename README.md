@@ -5,7 +5,7 @@ Projet réalisé dans le cadre de la formation "Développeur Web" d'OpenClassroo
 ***********************************
 ## Technologies utilisées  
 * Projet hébergé: par un serveur Node.js
-		`* Framework utilisé:  Express `
+		`* Framework utilisé:  Express`
 * Base de données: MongoDB
 		`* Plugin: Mongoose`
 ************
