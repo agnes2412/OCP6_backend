@@ -20,4 +20,9 @@ sa machine ;
 * les mots de passe sont stockés de manière sécurisée ;
 * les adresses mails de la base de données sont uniques et un plugin Mongoose
 approprié est utilisé pour s’assurer de leur caractère unique et rapporter des erreurs.
-***********************************
+## Pour accèder à ce projet :
+Il vous faut cloner le frontend de l'application via le lien suivant:  
+https://github.com/OpenClassrooms-Student-Center/dwj-projet6  
+Suivez le protocole et n'oubliez d'installer node-sass
+
+
