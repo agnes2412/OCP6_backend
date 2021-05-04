@@ -27,7 +27,7 @@ Suivez le protocole et n'oubliez pas d'installer node-sass
 
 * Dans un second temps, vous devez cloner le backend de ce projet
 
-* Vous devez créer un fichier .env à la racine du projet et ajouter les lignes suivantes afin de récupérer la valeur des variables d'environnement MONGO_URl et JWT_KEY
+* Vous devez créer un fichier .env à la racine du projet et ajouter les lignes suivantes afin de récupérer la valeur des variables d'environnement MONGO_URl et JWT_KEY  
 `MONGO_URl="mongodb+srv://DB_USER:5891*Agnes@cluster0.egtzz.mongodb.net/SoPiquante?retryWrites=true&w=majority"
 JWT_KEY="19Li%85tSa"`
 
