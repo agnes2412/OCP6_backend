@@ -24,13 +24,13 @@ approprié est utilisé pour s’assurer de leur caractère unique et rapporter 
 ## Pour accèder à ce projet :
 * Dans un premier temps, il vous faut cloner le frontend de l'application via le lien suivant et installer node-sass:  
 https://github.com/OpenClassrooms-Student-Center/dwj-projet6  
-Depuis votre invite de commande, allez dans le dossier puis tapez les lignes suivantes
-npm install
+Depuis votre invite de commande, allez dans le dossier puis tapez les lignes suivantes  
+npm install  
 ng serve
   
 Vous pouvez maintenant vous rendre à l'adresse suivante: http://localhost:4200/
 
-* Dans un second temps, vous devez cloner le backend de ce projet et installer tous les modules
+* Dans un second temps, vous devez cloner le backend de ce projet et installer tous les modules:  
 https://github.com/agnes2412/OCP6_backend  
 npm install
 
