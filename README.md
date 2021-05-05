@@ -32,7 +32,7 @@ Vous pouvez vous rendre à l'adresse suivante: http://localhost:4200/
 
 * Dans un second temps, vous devez cloner le backend de ce projet et installer tous les modules:  
 https://github.com/agnes2412/OCP6_backend  
-Depuis votre terminal, installez la ligne suivante  
+Depuis votre terminal, placez-vous dans le dossier puis tapez la ligne suivante  
 npm install
 
 * Ensuite, créez un fichier .env à la racine du projet et ajoutez les lignes suivantes afin de récupérer la valeur des variables d'environnement MONGO_URl et JWT_KEY  
