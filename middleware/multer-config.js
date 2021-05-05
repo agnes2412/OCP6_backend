@@ -1,4 +1,3 @@
-// J'importe multer
 const multer = require('multer');
 
 //Je me prépare un dictionnaire des extensions
