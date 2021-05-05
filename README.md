@@ -41,7 +41,7 @@ Les lignes ci-dessus ne devront, EN AUCUN CAS, apparaître dans le cadre d'un pr
 * Pour finir, depuis votre terminal, allez dans le dossier backend et entrez la ligne suivante  
 nodemon
 
-Vous pouvez vous rendre à l'adresse suivante: http://localhost:4200/
+Vous pouvez vous rendre à l'adresse suivante: http://localhost:4200/  
 Vous avez désormais accès à toutes les fonctionnalités de l'application "Piquante"
 
 
