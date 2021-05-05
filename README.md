@@ -27,8 +27,6 @@ https://github.com/OpenClassrooms-Student-Center/dwj-projet6
 Depuis votre invite de commande, placez vous dans le dossier puis tapez les lignes suivantes  
 npm install  
 ng serve
-  
-Vous pouvez vous rendre à l'adresse suivante: http://localhost:4200/
 
 * Dans un second temps, vous devez cloner le backend de ce projet et installer tous les modules:  
 https://github.com/agnes2412/OCP6_backend  
@@ -43,6 +41,7 @@ Les lignes ci-dessus ne devront, EN AUCUN CAS, apparaître dans le cadre d'un pr
 * Pour finir, depuis votre terminal, allez dans le dossier backend et entrez la ligne suivante  
 nodemon
 
+Vous pouvez vous rendre à l'adresse suivante: http://localhost:4200/
 Vous avez désormais accès à toutes les fonctionnalités de l'application "Piquante"
 
 
