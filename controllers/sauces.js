@@ -1,12 +1,16 @@
 //Dans le fichier controleur se trouve la logique métier de chaque fonction
 
+//J'importe mon modèle de sauce (sauceSchema) pour pouvoir l'appliquer
 const Sauce = require('../models/sauce');
 //J'importe le package fs (file system) de node pour accéder aux opérations liées aux fichiers
 const fs = require('fs');
 
+//j'exporte chacune de mes fonctions
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce);
+    //l'id renvoyé par le frontend n'est pas le bon donc j'enlève le champ id du corps de la requête
     delete sauceObject._id;
+    //Je crée un nouvelle instance de mon modèle
     const sauce = new Sauce({
         //L'opérateur 'spread' va copier les champs dans le corps de la requête
         ...sauceObject,
@@ -20,44 +24,49 @@ exports.createSauce = (req, res, next) => {
     });
     //Avec la méthode .save, j'enregistre l'objet dans la base de données et retourne une promesse
     sauce.save()
+    //Même si la requête aboutit, je renvoie une réponse au frontend sinon expiration de la requête
         .then(() => res.status(201).json({ message: 'Sauce enregistrée !' }))
+        //Je récupère l'erreur et renvoie un code 400 avec un json error
         .catch(error => res.status(400).json({ error }));
 };
 
 exports.modifySauce = (req, res, next) => {
-    //Si il y a un fichier image dans le requête
+    console.log(req.body);
+    //Si il y a déjà un fichier image dans la requête
     if (req.file) {
         Sauce.findOne({ _id: req.params.id })
             .then(resSauce => {
-                //Je récupère le nom du fichier de l'image et le split
+                //Je récupère le nom du fichier existant et le split
                 //Le split retourne un tableau de 2 éléments ce qui vient avant le /images/ 
                 //et ce qui vient après le /images/ donc le nom du fichier
                 const filename = resSauce.imageUrl.split('/images/')[1];
+                //Je le supprime
                 fs.unlink(`images/${filename}`, (error => {
                     if (error) {
                         console.log(error);
                     } else {
                         console.log('image supprimée: ' + filename);
                     }
-                }))
+                }));
             })
     }
     //J'utilise l'opérateur ternaire ? pour savoir si req.file existe
     const sauceObject = req.file ?
-        //S'il existe, je récupère la chaine de caractère, je la parse en objet et je génère l'image url car c'est une nouvelle image
+        //S'il existe, je récupère la chaine de caractère, je la parse en objet et je génère la nouvelle image 
         {
             ...JSON.parse(req.body.sauce),
             imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
             //sinon je prends le corps de la requête
         } : { ...req.body };
-    //Je recherche l'id qui correspond à l'id dans les paramètres de recherche
+    //1er argument l'id qui correspond à l'id envoyé dans les paramètres de recherche, 
+    //2ème argument la nouvelle sauce(...pour récupérer la sauce dans le corps de la requête; id correspond à celui des paramètres )
     Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
         .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
         .catch(error => res.status(400).json({ error }));
 };
 
 exports.deleteSauce = (req, res, next) => {
-    //Avant de supprimer l'objet de la base, je vais le chercher pour avoir l'url de l'image, 
+    //Avant de supprimer l'objet de la base, je vais le chercher pour récupérer l'url de l'image, 
     //je récupère le nom du fichier pour le supprimer
     Sauce.findOne({ _id: req.params.id })
         .then(sauce => {

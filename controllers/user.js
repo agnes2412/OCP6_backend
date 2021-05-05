@@ -1,7 +1,5 @@
 //Ce controleur comporte deux middleware d'authentification
-//Après avoir installé le package bcrypt, je l'importe
 const bcrypt = require('bcrypt');
-const cryptoJS = require('crypto-js');
 const jwt = require('jsonwebtoken');
 //J'importe mon modèle user pour lire et enregistrer des users dans les middleware suivants
 const User = require('../models/user');
@@ -12,27 +10,24 @@ require('dotenv').config();
 
 //La fonction 'signup' pour l'enregistrement de nouveaux utilisateurs depuis l'appli frontend
 exports.signup = (req, res, next) => {
-    const cryptEmail = cryptoJS.HmacSHA256(req.body.email, `${process.env.CRYPT_EMAIL}`).toString();
-    console.log(cryptEmail);
-     //Si les données entrées ne correspondent pas au schéma, envoi d'une erreur
+    //Si les données entrées ne correspondent pas au schéma, envoi d'une erreur
     if (!schema.validate(req.body.password)) {
         res.status(401).json({ error: 'Les données entrées ne correspondent pas au schéma demandé !' });
         //Sinon si les données entrées correspondent au schéma
     } else if (schema.validate(req.body.password)) {
         //Hashage du mot de passe du user avec bcrypt et je l'enregistre dans la base de données
-        //Avec la fonction bcrypt.hash, je hash, cripte le mot de passe; je lui passe le mdp du corps de la requête passé par le frontend
-        //10 correspond au salt, càd combien de fois on exécute l'algorythme de hashage, ici 10 tours(c'est une méthode asychrone, càd qui prend du temps, 10 tours sufffisent)
+        //Avec la fonction bcrypt.hash, je hash, crypte le mot de passe; je lui passe le mdp du corps de la requête passé par le frontend
+        //10 correspond au salt, càd combien de fois on exécute l'algorythme de hashage, ici 10 tours(c'est une méthode asynchrone, càd qui prend du temps, 10 tours sufffisent)
         bcrypt.hash(req.body.password, 10)
             //Je récupère le hash de mot de passe
             .then(hash => {
                 //Je l'enregistre dans un nouveau user. Donc je crée un nouvel user avec mon modèle mongoose
                 const user = new User({
                     //Je passe l'adresse (cryptée) qui est fourni dans le corps de la requête
-                    email: cryptEmail,
+                    email: req.body.email,
                     //Comme mot de passe, j'enregistre le hash, donc le mot de passe crypté
                     password: hash
                 });
-                console.log(cryptEmail);
                 console.log(hash);
                 //J'utilise la méthode save pour l'enregistrer dans la base de données
                 user.save()
@@ -45,28 +40,24 @@ exports.signup = (req, res, next) => {
 };
 
 schema
-    .is().min(8)
-    .is().max(100)                                      //minimum 8 caractères
+    .is().min(8)                                        //minimum 8 caractères
+    .is().max(50)                                       //maximum 50 caractères
     .has().uppercase(1)                                 //minimum 1 caractère majuscule
     .has().lowercase(1)                                 //minimum 1 caractère minuscule
     .has().digits(2)                                    //minimum 2 chiffres
     .has().not().spaces()                               //aucun espace
-    .is().not().oneOf(['Passw0rd', 'Password123']);     //Liste noire de ces valeurs
-    
+    .is().not().oneOf(['Azerty123', 'Motdepasse123']);     //Liste noire de ces valeurs
+
 //La fonction login pour la connexion des utilisateurs existants
 exports.login = (req, res, next) => {
-    //const cryptEmail = cryptoJS.AES.encrypt(req.body.email, `${process.env.CRYPT_EMAIL}`).toString();
-    const cryptEmail = cryptoJS.HmacSHA256(req.body.email, `${process.env.CRYPT_EMAIL}`).toString();
-    console.log(cryptEmail);
     //Je mets l'objet de comparaison, ici l'utilisateur pour qui l'adresse mail correspond à l'adresse mail envoyée dans la requête
-    User.findOne({ email: cryptEmail })
-        //Je vérifie s'il la promise a récupérer un use
+    User.findOne({ email: req.body.email })
+        //Je vérifie si la promise a récupérer un user
         .then(user => {
             if (!user) {
                 return res.status(401).json({ error: 'Utilisateur non trouvé !' });
             }
-            //J'utilise bcrypt pour comparer le mot de passe de l'utilisateur qui essaie de se connecter 
-            //avec le hash enregistré avec le user reçu dans le then
+            //J'utilise bcrypt pour comparer le mot de passe de l'utilisateur qui essaie de se connecter au hash de la base de données
             bcrypt.compare(req.body.password, user.password)
                 .then(valid => {
                     //Si la comparaison des mdp n'est pas valable
@@ -89,6 +80,6 @@ exports.login = (req, res, next) => {
                     });
                 })
                 .catch(error => res.status(500).json({ error }));
-        })
-        .catch(error => res.status(500).json({ error }));
+            })
+            .catch(error => res.status(500).json({ error }));
 };

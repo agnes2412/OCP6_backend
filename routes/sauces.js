@@ -9,11 +9,12 @@ const router = express.Router();
 const auth = require('../middleware/auth');
 //J'importe le middleware qui permet de télécharger des fichiers image depuis le frontend
 const multer = require('../middleware/multer-config');
+//J'importe mes logiques métier (controllers) pour les intégrer à la route correspondante
 const saucesCtrl = require('../controllers/sauces');
 
-//J'importe la fonction createSauces pour l'appliquer à la route
-//Pour protéger mes routes, je rajoute le middleware 'auth' avant le controleur
-//J'ajoute le middleware pour avoir un fichier image avec la requête post
+//Pour protéger mes routes, j'ajoute le middleware 'auth' avant le controleur
+//J'ajoute le middleware multer pour avoir un fichier image avec la requête post
+//J'applique la fonction 'logique métier' correspondante à la route 
 router.post('/', auth, multer, saucesCtrl.createSauce);
 router.put('/:id', auth, multer, saucesCtrl.modifySauce);
 router.delete('/:id', auth, saucesCtrl.deleteSauce);

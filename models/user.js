@@ -2,8 +2,7 @@
 
 const mongoose = require('mongoose');
 
-//J'installe le package 'mongoose-unique-validator'
-//Je rajoute ce validateur comme plugin au schema
+//J'installe le package 'mongoose-unique-validator'et le rajoute comme plugin au schema
 const uniqueValidator = require('mongoose-unique-validator');
 
 //J'utilise la fonction 'Schema' de mongoose

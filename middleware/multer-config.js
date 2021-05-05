@@ -11,7 +11,7 @@ const MIME_TYPES = {
 //Je crée un objet de configuration pour multer
 //avec la fonction diskStorage, je l'enregistre sur le disque
 const storage = multer.diskStorage({
-    //l'objet de configuratin que je passe à diskStorage a besoin de deux éléments
+    //l'objet de configuration que je passe à diskStorage a besoin de deux éléments
     //la destination va expliquer dans quel dossier enregistrer les fichiers
     destination: (req, file, callback) => {
         callback(null, 'images')

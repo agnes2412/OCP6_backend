@@ -15,7 +15,8 @@ const normalizePort = val => {
     }
     return false;
   };
-  //J'utilise une variable environnement si le port 3000 n'est pas disponible
+  //si l'environnement sur lequel tourne mon serveur m'envoie un port, 
+  //je l'utilise sinon par défaut j'utilise le port 3000 
   const port = normalizePort(process.env.PORT || '3000');
   app.set('port', port);
   
@@ -40,7 +41,8 @@ const normalizePort = val => {
     }
   };
   
-  //Avec la méthode createServer qui prend comme argument mon application sera appelée à chaque requête reçue par le serveur
+  //Je passe d'application express (fonction qui va recevoir la requête et la réponse) à mon serveur Node
+  //La méthode createServer (qui prend comme argument la fonction 'app' mon application) sera appelée à chaque requête reçue par le serveur
   const server = http.createServer(app);
   
   server.on('error', errorHandler);
