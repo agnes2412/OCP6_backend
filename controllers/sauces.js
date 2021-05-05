@@ -24,7 +24,7 @@ exports.createSauce = (req, res, next) => {
     });
     //Avec la méthode .save, j'enregistre l'objet dans la base de données et retourne une promesse
     sauce.save()
-    //Même si la requête aboutit, je renvoie une réponse au frontend sinon expiration de la requête
+        //Même si la requête aboutit, je renvoie une réponse au frontend sinon expiration de la requête
         .then(() => res.status(201).json({ message: 'Sauce enregistrée !' }))
         //Je récupère l'erreur et renvoie un code 400 avec un json error
         .catch(error => res.status(400).json({ error }));
@@ -123,11 +123,14 @@ exports.likeSauce = (req, res, next) => {
                             .then(() => res.status(200).json({ message: 'Like supprimé !' }))
                             .catch(error => res.status(400).json({ error }));
                     }
+                    //Je cherche si le user a déjà disliké une sauce
                     if (sauce.usersDisliked.find((user) => user === req.body.userId)) {
                         Sauce.updateOne({ _id: req.params.id }, {
                             $inc: {
+                                //Je décrémente la valeur de 1
                                 dislikes: -1
                             },
+                            //Je retire la valeur (req.body.userId) du champ (userDisliked) 
                             $pull: { usersDisliked: req.body.userId },
                             _id: req.params.id
                         })
