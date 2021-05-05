@@ -37,7 +37,8 @@ npm install
 
 * Ensuite, créez un fichier .env à la racine du projet et ajoutez les lignes suivantes afin de récupérer la valeur des variables d'environnement MONGO_URl et JWT_KEY  
 `MONGO_URl="mongodb+srv://DB_USER:5891*Agnes@cluster0.egtzz.mongodb.net/SoPiquante?retryWrites=true&w=majority"
-JWT_KEY="19Li%85tSa"`
+JWT_KEY="19Li%85tSa"`  
+Les lignes ci-dessus ne devront, en aucun cas, apparaîtrent dans le cadre d'un projet réel
 
 * Pour finir, depuis votre terminal, allez dans le dossier backend et entrez la ligne suivante  
 nodemon
